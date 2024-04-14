@@ -13,17 +13,18 @@ defmodule EzpressoWeb.EditorLive do
           <textarea
             id="markdown-editor"
             name="markdown-content"
-            rows="10"
+            rows="30"
             class="w-full border rounded p-2"
             phx-change="update-markdown"
+            phx-debounce="500"
             phx-target="#preview"
           ><%= @markdown %></textarea>
         </div>
-        <div class="w-1/2 flex flex-col p-4">
+        <div class="w-1/2 flex flex-col p-4 max-h-[50rem]">
           <h2 class="text-xl mb-2">Preview</h2>
           <div class="overflow-scroll">
             <%= for slide_html <- @slides_html do %>
-              <div id="preview" name="preview" class="border rounded p-4 mb-4">
+              <div id="preview" name="preview" class="border rounded p-4 mb-4 min-h-60">
                 <article class="prose prose-a:text-blue-600 descendant:dark:text-white">
                   <%= raw(slide_html) %>
                 </article>
