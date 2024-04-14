@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "4001:5432"
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-elixir_chat_app_dev}
+      POSTGRES_HOST: ${PGHOST:-db}
+      # POSTGRES_HOST_AUTH_METHOD: trust
+    restart: always
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+  phoenix:
+    build: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+volumes:
+  pgdata:
+    # environment:
+    #   PGUSER: ${PGUSER:-postgres}
+    #   PGDATABASE: ${PGDATABASE:-chat_app_dev}
+    #   PGPASSWORD: ${PGPASSWORD:-postgres}
+    #   PGHOST: db
