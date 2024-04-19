@@ -14,7 +14,7 @@ defmodule Ezpresso.Presentations.Presentation do
   @doc false
   def changeset(presentation, attrs) do
     presentation
-    |> cast(attrs, [:title, :markdown_content, :use_id])
+    |> cast(attrs, [:title, :markdown_content, :user_id])
     |> validate_required([:title, :markdown_content, :user_id])
   end
 end
