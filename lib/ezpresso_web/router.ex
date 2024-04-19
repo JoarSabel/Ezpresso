@@ -67,7 +67,8 @@ defmodule EzpressoWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [{EzpressoWeb.UserAuth, :ensure_authenticated}] do
       live "/home", HomeLive, :index
-      live "/editor", EditorLive, :editor
+      live "/editor", EditorLive, :render
+      live "/editor/:id", EditorLive, :render
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
