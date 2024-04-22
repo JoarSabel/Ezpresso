@@ -3,6 +3,7 @@ defmodule Ezpresso.Presentations do
   alias Ezpresso.Repo
   alias Ezpresso.Presentations.Presentation
 
+
   @doc """
   Lists all of the presentations.
 
@@ -20,6 +21,7 @@ defmodule Ezpresso.Presentations do
     Repo.all(query)
   end
 
+
   @doc """
   Saves a presentation to storage
 
@@ -32,8 +34,6 @@ defmodule Ezpresso.Presentations do
   """
   def save(post_params) do
     id = post_params["id"]
-    # query = from p in Presentation, where: p.id == ^id
-    # case Repo.exists?(query) do
     if String.trim(id) != "" do
       case Repo.exists?(Presentation, id: id) do
         true ->
