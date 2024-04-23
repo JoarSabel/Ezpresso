@@ -59,7 +59,7 @@ defmodule EzpressoWeb.EditorLive do
                 name="preview"
                 class="bg-slate-50 border rounded p-4 mb-4 min-h-60"
               >
-                <article class="prose prose-a:text-blue-600 descendant:dark:text-white">
+                <article class="prose prose-a:text-sky-500 descendant:dark:text-white">
                   <%= raw(slide_html) %>
                 </article>
               </div>
