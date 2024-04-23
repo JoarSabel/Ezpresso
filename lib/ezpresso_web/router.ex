@@ -69,6 +69,7 @@ defmodule EzpressoWeb.Router do
       live "/home", HomeLive, :index
       live "/editor", EditorLive, :render
       live "/editor/:id", EditorLive, :render
+      live "/present/:id", PresenterPageLive, :render
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
