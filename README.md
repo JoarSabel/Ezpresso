@@ -14,12 +14,14 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## TODO
 
-- [ ] Make homescreen display all the presentations a user has made.
+- [x] Make homescreen display all the presentations a user has made.
   - [x] Can save presentations
   - [x] Presentations have users associated with them
+  - [x] Can load all of the users presentations to the page
+    - [x] They lead to the editor when clicked
 - [ ] Make a presenter page, where you can present one slide at a time.
   - [x] Make homepage/landingpage
-  - [ ] Load all the presentations with the current user
+  - [x] Load all the presentations with the current user
   - [ ] If not logged in...do something else? 
 - [ ] Do some sort of audio to text conversion for when you want to practice speaking.
   - [ ] deps <> Bumblebee
