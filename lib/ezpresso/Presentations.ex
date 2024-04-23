@@ -21,6 +21,10 @@ defmodule Ezpresso.Presentations do
     Repo.all(query)
   end
 
+  def all_by_user(user) do
+    from(p in Presentation, where: p.user_id == ^user.id)
+    |> Repo.all()
+  end
 
   @doc """
   Saves a presentation to storage
