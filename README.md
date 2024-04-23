@@ -21,10 +21,15 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   - [x] Presentations have users associated with them
   - [x] Can load all of the users presentations to the page
     - [x] They lead to the editor when clicked
-- [ ] Make a presenter page, where you can present one slide at a time.
-  - [x] Make homepage/landingpage
-  - [x] Load all the presentations with the current user
   - [ ] If not logged in...do something else? 
+- [x] Make a presenter page, where you can present one slide at a time.
+  - [x] Make homepage/landingpage
+  - [x] Load a specific presentation onto new page
+    - [x] Make a layout with the slides and next and prev buttons
+  - [x] Can cycle the slides with buttons and arrows.
+  - [ ] Improve styling...
+- [ ] Editor
+  - [ ] Add support for images
 - [ ] Do some sort of audio to text conversion for when you want to practice speaking.
   - [ ] deps <> Bumblebee
   - [ ] Some way to deal with audio (Membrane?)
@@ -42,6 +47,8 @@ The home page, as seen here will feature all the users presentations, with a pre
 ![Editor, in development...](./priv/static/images/editorDemo.png)
 The editor page, will be where the presentations can be made.
 
+![Presenter View, in development...](./priv/static/images/presenterDemo.png)
+The presenter page, is the page where we show off all the cool markdown that we wrote [|:^)
 ## Learn more
 
   * Official website: https://www.phoenixframework.org/
