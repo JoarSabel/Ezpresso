@@ -12,6 +12,23 @@ To start your Phoenix server:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 
+## TODO
+
+- [ ] Make homescreen display all the presentations a user has made.
+  - [x] Can save presentations
+  - [x] Presentations have users associated with them
+- [ ] Make a presenter page, where you can present one slide at a time.
+  - [x] Make homepage/landingpage
+  - [ ] Load all the presentations with the current user
+  - [ ] If not logged in...do something else? 
+- [ ] Do some sort of audio to text conversion for when you want to practice speaking.
+  - [ ] deps <> Bumblebee
+  - [ ] Some way to deal with audio (Membrane?)
+  - [ ] Pass audio to ML alg -> return text
+    - [ ] show as subtitles?
+    - [ ] store for later use?
+    - [ ] pass to some evaluation (how good is your talking?)?
+
 ## Learn more
 
   * Official website: https://www.phoenixframework.org/
