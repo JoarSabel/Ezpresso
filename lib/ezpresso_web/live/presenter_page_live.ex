@@ -50,42 +50,52 @@ defmodule EzpressoWeb.PresenterPageLive do
           <div class="flex flex-row justify-center items-end min-h-[10vh]">
             <%= if @current_slide > 0 do %>
               <button
-                class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
+                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
                 phx-click="slide-back"
               >
                 Prev
               </button>
             <% else %>
-              <button class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12 opacity-50 cursor-not-allowed">
+              <button class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 opacity-50 cursor-not-allowed">
                 Prev
               </button>
             <% end %>
             <%= if @slides |> Enum.count() > @current_slide + 1 do %>
               <button
-                class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
+                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
                 phx-click="slide-forth"
               >
                 Next
               </button>
             <% else %>
-              <button class="rounded border border-black mr-2 p-2 bg-sky-500 opacity-50 cursor-not-allowed max-h-12">
+              <button class="rounded border border-black mr-2 p-2 bg-white-500 opacity-50 cursor-not-allowed max-h-12">
                 Next
               </button>
             <% end %>
           </div>
           <span class="flex grow"></span>
           <div class="flex flex-row justify-center items-end min-h-[10vh]">
+            <%= if not @draw_mode do %>
             <button
-              id="toggle_draw"
-              class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
+              id="toggle_draw_offversion"
+              class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
               phx-click="toggle_draw"
             >
               Draw
             </button>
+            <% else %>
+            <button
+              id="toggle_draw"
+              class="rounded text-white mr-2 p-2 bg-green-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
+              phx-click="toggle_draw"
+            >
+              Draw
+            </button>
+              <% end %>
             <%= if @draw_mode do %>
               <button
                 id="clear_canvas_button"
-                class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
+                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
                 phx-hook="clear_canvas_button"
               >
                 Clear
@@ -93,7 +103,7 @@ defmodule EzpressoWeb.PresenterPageLive do
             <% else %>
               <button
                 id="dummy-clear"
-                class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12 opacity-50 cursor-not-allowed"
+                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 opacity-50 cursor-not-allowed"
               >
                 Clear
               </button>

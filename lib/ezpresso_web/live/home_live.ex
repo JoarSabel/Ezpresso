@@ -30,7 +30,7 @@ defmodule EzpressoWeb.HomeLive do
                   <li class="flex flex-col min-h-60 bg-white-800 border-2 border-black rounded transition-all hover:shadow-2xl hover:-translate-y-1 hover:-translate-x-1 duration-300">
                     <div class="w-full min-h-full">
                       <div class="min-h-36 bg-green-200">
-                        <article class="ml-1 prose prose-a:text-blue-600 descendant:dark:text-white">
+                        <article class="ml-1 prose prose-sm prose-a:text-blue-600 descendant:dark:text-white">
                           <%= raw(hd(MarkdownHelper.collect_slides(presentation.markdown_content))) %>
                         </article>
                       </div>
