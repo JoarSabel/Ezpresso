@@ -1,5 +1,4 @@
 defmodule EzpressoWeb.PresenterPageLive do
-  alias Ezpresso.Presentations
   alias Ezpresso.Presentations.Presentation
   alias Ezpresso.Repo
   alias EzpressoWeb.Helpers.MarkdownHelper
@@ -76,22 +75,22 @@ defmodule EzpressoWeb.PresenterPageLive do
           <span class="flex grow"></span>
           <div class="flex flex-row justify-center items-end min-h-[10vh]">
             <%= if not @draw_mode do %>
-            <button
-              id="toggle_draw_offversion"
-              class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
-              phx-click="toggle_draw"
-            >
-              Draw
-            </button>
+              <button
+                id="toggle_draw_offversion"
+                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
+                phx-click="toggle_draw"
+              >
+                Draw
+              </button>
             <% else %>
-            <button
-              id="toggle_draw"
-              class="rounded text-white mr-2 p-2 bg-green-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
-              phx-click="toggle_draw"
-            >
-              Draw
-            </button>
-              <% end %>
+              <button
+                id="toggle_draw"
+                class="rounded text-white mr-2 p-2 bg-green-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
+                phx-click="toggle_draw"
+              >
+                Draw
+              </button>
+            <% end %>
             <%= if @draw_mode do %>
               <button
                 id="clear_canvas_button"
