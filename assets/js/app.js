@@ -39,7 +39,7 @@ let hooks = {
       canvas.height = sizeHeight;
       ctx.lineWidth = 3;
       ctx.strokeStyle = "red";
-    }, 
+    },
     mounted() {
       // TODO: Clean this mess up, hella bloat-y
       let canvas = this.el;
