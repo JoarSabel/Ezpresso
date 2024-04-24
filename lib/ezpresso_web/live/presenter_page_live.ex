@@ -20,10 +20,24 @@ defmodule EzpressoWeb.PresenterPageLive do
       phx-window-keydown="handle-keypress"
     >
       <div class="flex flex-col min-h-full">
-        <div class="flex min-h-[65vh] justify-center content-center text-center items-center">
+        <div class="flex min-h-[65vh] justify-center content-center text-center items-center relative">
+          <%= if @draw_mode do %>
+          <canvas
+            id="presentation_canvas"
+            class="bg-transparent absolute z-20"
+            phx-hook="canvas"
+            width="1500"
+            height="700"
+          >
+          </canvas>
+          <% end %>
           <%= for {slide, idx} <- Enum.with_index(@slides) do %>
             <%= if assigns.current_slide == idx do %>
-              <div id={"slide-" <> Integer.to_string(idx+1)} name="slide" class="flex">
+              <div
+                id={"slide-" <> Integer.to_string(idx+1)}
+                name="slide"
+                class="flex justify-center content-center text-center items-center h-full w-full "
+              >
                 <article class="prose prose-zinc prose-img:rounded-xl prose-2xl prose-a:text-sky-500 descendant:dark:text-white text-left">
                   <%= raw(slide) %>
                 </article>
@@ -32,6 +46,7 @@ defmodule EzpressoWeb.PresenterPageLive do
           <% end %>
         </div>
         <span class="flex grow"></span>
+          <div class="flex flex-row w-full"> 
         <div class="flex flex-row justify-center items-end min-h-[10vh]">
           <%= if @current_slide > 0 do %>
             <button
@@ -57,6 +72,25 @@ defmodule EzpressoWeb.PresenterPageLive do
               Next
             </button>
           <% end %>
+        </div>
+        <span class="flex grow" ></span>
+        <div class="flex flex-row justify-center items-end min-h-[10vh]"> 
+
+          <button 
+            id="toggle_draw"
+            class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
+            phx-click="toggle_draw"
+          >
+            Draw
+          </button>
+          <button 
+            id="clear_canvas_button"
+            class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
+            phx-hook="clear_canvas_button"
+          >
+            Clear
+          </button>
+        </div>
         </div>
       </div>
     </div>
@@ -95,10 +129,17 @@ defmodule EzpressoWeb.PresenterPageLive do
            socket,
            loading: false,
            slides: MarkdownHelper.collect_slides(presentation.markdown_content),
-           current_slide: 0
+           current_slide: 0,
+           draw_mode: false
            # form: to_form(res)
          )}
     end
+  end
+
+
+  @impl true
+  def handle_event("toggle_draw", _value, socket) do
+    {:noreply, assign(socket, draw_mode: not socket.assigns.draw_mode)}
   end
 
   @impl true
@@ -117,10 +158,9 @@ defmodule EzpressoWeb.PresenterPageLive do
         %{"key" => key},
         socket
       ) do
-
     current_slide = socket.assigns.current_slide
     slides = socket.assigns.slides
-  
+
     case key do
       "ArrowRight" ->
         if current_slide + 1 < Enum.count(slides) do

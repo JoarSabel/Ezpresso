@@ -27,6 +27,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   - [x] Load a specific presentation onto new page
     - [x] Make a layout with the slides and next and prev buttons
   - [x] Can cycle the slides with buttons and arrows.
+  - [x] Can draw on the presentation.
   - [ ] Improve styling...
 - [ ] Editor
   - [ ] Add support for images
