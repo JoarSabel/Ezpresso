@@ -83,6 +83,7 @@ defmodule EzpressoWeb.PresenterPageLive do
           >
             Draw
           </button>
+          <%= if @draw_mode do%>
           <button 
             id="clear_canvas_button"
             class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12"
@@ -90,6 +91,14 @@ defmodule EzpressoWeb.PresenterPageLive do
           >
             Clear
           </button>
+          <% else %>
+            <button 
+            id="dummy-clear"
+            class="rounded border border-black mr-2 p-2 bg-sky-500 max-h-12 opacity-50 cursor-not-allowed"
+          >
+            Clear
+          </button>
+          <% end %>
         </div>
         </div>
       </div>
@@ -131,7 +140,6 @@ defmodule EzpressoWeb.PresenterPageLive do
            slides: MarkdownHelper.collect_slides(presentation.markdown_content),
            current_slide: 0,
            draw_mode: false
-           # form: to_form(res)
          )}
     end
   end

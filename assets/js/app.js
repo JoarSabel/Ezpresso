@@ -91,7 +91,6 @@ let hooks = {
   clear_canvas_button: {
     mounted() {
       this.el.addEventListener("click", () => {
-        // console.log("hello")
         let canvas = document.getElementById("presentation_canvas");
         let ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
