@@ -73,6 +73,14 @@ defmodule EzpressoWeb.PresenterPageLive do
             <% end %>
           </div>
           <span class="flex grow"></span>
+          <div class="flex items-end">
+            <button class="group  transition-all duration-300 ease-in-out" phx-click="conf">
+              <span class="bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                🔧 Conf
+              </span>
+            </button>
+          </div>
+          <span class="flex grow"></span>
           <div class="flex flex-row justify-center items-end min-h-[10vh]">
             <%= if not @draw_mode do %>
               <button
@@ -145,11 +153,21 @@ defmodule EzpressoWeb.PresenterPageLive do
          assign(
            socket,
            loading: false,
+           presentation_id: presentation.id,
            slides: MarkdownHelper.collect_slides(presentation.markdown_content),
            current_slide: 0,
            draw_mode: false
          )}
     end
+  end
+
+  @impl true
+  def handle_event("conf", _value, socket) do
+    socket =
+      socket
+      |> push_navigate(to: ~p"/editor/#{socket.assigns.presentation_id}")
+
+    {:noreply, socket}
   end
 
   @impl true

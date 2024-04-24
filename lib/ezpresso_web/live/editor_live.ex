@@ -24,9 +24,14 @@ defmodule EzpressoWeb.EditorLive do
             <button
               type="submit"
               phx-disable-with="Saving..."
-              class="bg-green-500 hover:bg-green-600 rounded w-16 text-white py-2 px-4"
+              class="bg-green-500 hover:bg-green-600 rounded w-16 text-white py-2 px-4 mr-2"
             >
               Save
+            </button>
+            <button class="group transition-all duration-300 ease-in-out" phx-click="present">
+              <span class="bg-left-bottom bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                Present 🎬
+              </span>
             </button>
           </div>
           <div class="invisible h-0">
@@ -142,6 +147,15 @@ defmodule EzpressoWeb.EditorLive do
          form: to_form(form)
        )}
     end
+  end
+
+  @impl true
+  def handle_event("present", _values, socket) do
+    socket =
+      socket
+      |> push_navigate(to: ~p"/present/#{socket.assigns.form.data.id}")
+
+    {:noreply, socket}
   end
 
   @impl true
