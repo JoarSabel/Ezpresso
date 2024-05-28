@@ -16,6 +16,8 @@ defmodule EzpressoWeb.PresenterPageLive do
     ~H"""
     <div
       class="w-full min-h-full justify-center content-center text-center "
+      id="fullscreen-container" 
+      phx-hook="FullscreenToggle"
       phx-window-keydown="handle-keypress"
     >
       <div class="flex flex-col min-h-full">
@@ -45,78 +47,86 @@ defmodule EzpressoWeb.PresenterPageLive do
           <% end %>
         </div>
         <span class="flex grow"></span>
-        <div class="flex flex-row w-full">
-          <div class="flex flex-row justify-center items-end min-h-[10vh]">
-            <%= if @current_slide > 0 do %>
-              <button
-                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
-                phx-click="slide-back"
-              >
-                Prev
+        <!-- Button Row -->
+        <%= if not assigns.is_fullscreen do %>
+          <div class="flex flex-row w-full">
+            <div class="flex flex-row justify-center items-end min-h-[10vh]">
+              <%= if @current_slide > 0 do %>
+                <button
+                  class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
+                  phx-click="slide-back"
+                >
+                  &lt-
+                </button>
+              <% else %>
+                <button class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 opacity-50 cursor-not-allowed">
+                  &lt-
+                </button>
+              <% end %>
+              <%= if @slides |> Enum.count() > @current_slide + 1 do %>
+                <button
+                  class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
+                  phx-click="slide-forth"
+                >
+                  -&gt
+                </button>
+              <% else %>
+                <button class="rounded border border-black mr-2 p-2 bg-white-500 opacity-50 cursor-not-allowed max-h-12">
+                  -&gt
+                </button>
+              <% end %>
+            </div>
+            <span class="flex grow"></span>
+            <div class="flex items-end">
+              <button class="group  transition-all duration-300 ease-in-out pr-4" phx-click="conf">
+                <span class="bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                  🔧 Conf
+                </span>
               </button>
-            <% else %>
-              <button class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 opacity-50 cursor-not-allowed">
-                Prev
-              </button>
-            <% end %>
-            <%= if @slides |> Enum.count() > @current_slide + 1 do %>
-              <button
-                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
-                phx-click="slide-forth"
-              >
-                Next
-              </button>
-            <% else %>
-              <button class="rounded border border-black mr-2 p-2 bg-white-500 opacity-50 cursor-not-allowed max-h-12">
-                Next
-              </button>
-            <% end %>
-          </div>
-          <span class="flex grow"></span>
-          <div class="flex items-end">
-            <button class="group  transition-all duration-300 ease-in-out" phx-click="conf">
-              <span class="bg-left-bottom bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-                🔧 Conf
+            <button class="group transition-all duration-300 ease-in-out" phx-click="toggle-fullscreen">
+              <span class="bg-left-bottom bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                Present 🎬
               </span>
             </button>
+            </div>
+            <span class="flex grow"></span>
+            <div class="flex flex-row justify-center items-end min-h-[10vh]">
+              <%= if not @draw_mode do %>
+                <button
+                  id="toggle_draw_offversion"
+                  class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
+                  phx-click="toggle_draw"
+                >
+                  Draw
+                </button>
+              <% else %>
+                <button
+                  id="toggle_draw"
+                  class="rounded text-white mr-2 p-2 bg-green-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
+                  phx-click="toggle_draw"
+                >
+                  Draw
+                </button>
+              <% end %>
+              <%= if @draw_mode do %>
+                <button
+                  id="clear_canvas_button"
+                  class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
+                  phx-hook="clear_canvas_button"
+                >
+                  Clear
+                </button>
+              <% else %>
+                <button
+                  id="dummy-clear"
+                  class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 opacity-50 cursor-not-allowed"
+                >
+                  Clear
+                </button>
+              <% end %>
+            </div>
           </div>
-          <span class="flex grow"></span>
-          <div class="flex flex-row justify-center items-end min-h-[10vh]">
-            <%= if not @draw_mode do %>
-              <button
-                id="toggle_draw_offversion"
-                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
-                phx-click="toggle_draw"
-              >
-                Draw
-              </button>
-            <% else %>
-              <button
-                id="toggle_draw"
-                class="rounded text-white mr-2 p-2 bg-green-500 max-h-12 transition-all hover:shadow-xl hover:shadow-green-500 duration-300"
-                phx-click="toggle_draw"
-              >
-                Draw
-              </button>
-            <% end %>
-            <%= if @draw_mode do %>
-              <button
-                id="clear_canvas_button"
-                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12"
-                phx-hook="clear_canvas_button"
-              >
-                Clear
-              </button>
-            <% else %>
-              <button
-                id="dummy-clear"
-                class="rounded border border-black mr-2 p-2 bg-white-500 max-h-12 opacity-50 cursor-not-allowed"
-              >
-                Clear
-              </button>
-            <% end %>
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
     """
@@ -156,7 +166,8 @@ defmodule EzpressoWeb.PresenterPageLive do
            presentation_id: presentation.id,
            slides: MarkdownHelper.collect_slides(presentation.markdown_content),
            current_slide: 0,
-           draw_mode: false
+           draw_mode: false,
+           is_fullscreen: false
          )}
     end
   end
@@ -173,6 +184,34 @@ defmodule EzpressoWeb.PresenterPageLive do
   @impl true
   def handle_event("toggle_draw", _value, socket) do
     {:noreply, assign(socket, draw_mode: not socket.assigns.draw_mode)}
+  end
+
+  @impl true
+  def handle_event("toggle-fullscreen", _value, socket) do
+
+    IO.puts("\n\n\n\n" <> "socket: " <> to_string(socket.assigns.is_fullscreen) <> "\n\n\n")
+    case socket.assigns.is_fullscreen do
+      # realistically this will never fire
+      true -> 
+        socket =
+          socket
+          |> assign(:is_fullscreen, false)
+          |> push_event("toggle-fullscreen", %{action: "exit"})
+        {:noreply, socket}
+      false -> 
+        socket =
+          socket
+          |> assign(:is_fullscreen, true)
+          |> push_event("toggle-fullscreen", %{action: "enter"})
+        {:noreply, socket}
+      # realistically this will never fire 
+      nil -> 
+        socket =
+          socket
+          |> assign(:is_fullscreen, true)
+          |> push_event("toggle-fullscreen", %{action: "enter"})
+        {:noreply, socket}
+    end
   end
 
   @impl true
@@ -207,6 +246,19 @@ defmodule EzpressoWeb.PresenterPageLive do
           {:noreply, update(socket, :current_slide, &(&1 - 1))}
         else
           {:noreply, assign(socket, current_slide: current_slide)}
+        end
+
+      # I love that browsers don't register keypresses when fullscreen mode is on 
+      # even thought keypresses can take you out of fullscreen mode 
+      "Escape" ->
+        if socket.assigns.is_fullscreen do
+        socket =
+          socket
+          |> assign(:is_fullscreen, false)
+          |> push_event("toggle-fullscreen", %{action: "exit"})
+        {:noreply, socket}
+        else
+        {:noreply, socket}
         end
 
       _ ->

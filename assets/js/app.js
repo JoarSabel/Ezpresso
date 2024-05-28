@@ -96,6 +96,39 @@ let hooks = {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       });
     }
+  },
+  FullscreenToggle: {
+    mounted() {
+      this.handleEvent("toggle-fullscreen", ({ action }) => {
+        if (action === "enter") {
+          this.requestFullscreen();
+        } else if (action === "exit") {
+          this.exitFullscreen();
+        }
+      });
+    },
+    requestFullscreen() {
+      let element = document.documentElement;
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullscreen) { 
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) { 
+        element.msRequestFullscreen();
+      }
+    },
+    exitFullscreen() {
+      let isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+      if (isFullscreen) {
+        document.exitFullscreen();
+        // Safari
+      } else if (document.webkitExitFullscreen) { 
+        document.webkitExitFullscreen();
+        // Edge
+      } else if (document.msExitFullscreen) { 
+        document.msExitFullscreen();
+      }
+    },
   }
 };
 
