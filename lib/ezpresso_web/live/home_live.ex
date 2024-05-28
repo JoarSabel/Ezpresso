@@ -11,6 +11,14 @@ defmodule EzpressoWeb.HomeLive do
         <div class="text-3xl p-2 flex flex-row">
           <h1 class="underline decoration-pink-500">Ezpresso</h1>
           <h1>☕</h1>
+          <span class="flex grow"></span>
+          <a href="/editor/">
+            <button class="group  transition-all duration-300 ease-in-out pr-4">
+              <span class="bg-left-bottom bg-gradient-to-r from-yellow-400 to-yellow-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                ✨ New Presentation
+              </span>
+            </button>
+          </a>
         </div>
         <div class="border-l border-pink-500 rounded bg-gradient-to-r from-slate-100">
           <q class="pl-2 italic"> The worlds (easiest*) markdowniest presentation tool </q>

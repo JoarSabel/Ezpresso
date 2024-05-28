@@ -19,6 +19,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [x] Make homescreen display all the presentations a user has made.
   - [x] Can save presentations
   - [x] Presentations have users associated with them
+  - [x] Have a new presentation button lol
   - [x] Can load all of the users presentations to the page
     - [x] They lead to the editor when clicked
   - [ ] If not logged in...do something else? 
