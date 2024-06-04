@@ -16,7 +16,7 @@ defmodule EzpressoWeb.PresenterPageLive do
     ~H"""
     <div
       class="w-full min-h-full justify-center content-center text-center "
-      id="fullscreen-container" 
+      id="fullscreen-container"
       phx-hook="FullscreenToggle"
       phx-window-keydown="handle-keypress"
     >
@@ -103,11 +103,14 @@ defmodule EzpressoWeb.PresenterPageLive do
                   🔧 Conf
                 </span>
               </button>
-            <button class="group transition-all duration-300 ease-in-out" phx-click="toggle-fullscreen">
-              <span class="bg-left-bottom bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-                Present 🎬
-              </span>
-            </button>
+              <button
+                class="group transition-all duration-300 ease-in-out"
+                phx-click="toggle-fullscreen"
+              >
+                <span class="bg-left-bottom bg-gradient-to-r from-pink-500 to-pink-500 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                  Present 🎬
+                </span>
+              </button>
             </div>
             <span class="flex grow"></span>
             <div class="flex flex-row justify-center items-end min-h-[10vh]">
@@ -208,28 +211,31 @@ defmodule EzpressoWeb.PresenterPageLive do
 
   @impl true
   def handle_event("toggle-fullscreen", _value, socket) do
-
-    IO.puts("\n\n\n\n" <> "socket: " <> to_string(socket.assigns.is_fullscreen) <> "\n\n\n")
     case socket.assigns.is_fullscreen do
       # realistically this will never fire
-      true -> 
+      true ->
         socket =
           socket
           |> assign(:is_fullscreen, false)
           |> push_event("toggle-fullscreen", %{action: "exit"})
+
         {:noreply, socket}
-      false -> 
+
+      false ->
         socket =
           socket
           |> assign(:is_fullscreen, true)
           |> push_event("toggle-fullscreen", %{action: "enter"})
+
         {:noreply, socket}
+
       # realistically this will never fire 
-      nil -> 
+      nil ->
         socket =
           socket
           |> assign(:is_fullscreen, true)
           |> push_event("toggle-fullscreen", %{action: "enter"})
+
         {:noreply, socket}
     end
   end
@@ -272,13 +278,14 @@ defmodule EzpressoWeb.PresenterPageLive do
       # even thought keypresses can take you out of fullscreen mode 
       "Escape" ->
         if socket.assigns.is_fullscreen do
-        socket =
-          socket
-          |> assign(:is_fullscreen, false)
-          |> push_event("toggle-fullscreen", %{action: "exit"})
-        {:noreply, socket}
+          socket =
+            socket
+            |> assign(:is_fullscreen, false)
+            |> push_event("toggle-fullscreen", %{action: "exit"})
+
+          {:noreply, socket}
         else
-        {:noreply, socket}
+          {:noreply, socket}
         end
 
       _ ->
