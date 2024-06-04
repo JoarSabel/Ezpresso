@@ -22,6 +22,26 @@ defmodule EzpressoWeb.PresenterPageLive do
     >
       <div class="flex flex-col min-h-full">
         <div class="flex min-h-[65vh] justify-center content-center text-center items-center relative">
+          <%= if assigns.is_fullscreen do %>
+            <div id="presenter-mode-dropdown-container" class="relative inline-block z-30">
+              <div id="dropdown-content" class="absolute right-0 mt-2">
+                <button
+                  id="fullscreen-toggle-draw-button"
+                  class="block w-full mb-2 p-4 text-left rounded-full border text-lg text-gray-700 hover:bg-gray-100 transition duration-300 hover:-translate-x-1 hover:-translate-y-1"
+                  phx-click="toggle_draw"
+                >
+                  🖊️
+                </button>
+                <button
+                  id="fullscreen-toggle-erase-button"
+                  class="block w-full text-left p-4 rounded-full border text-lg text-gray-700 hover:bg-gray-100 transition duration-300 hover:-translate-x-1 hover:-translate-y-1"
+                  phx-click="toggle_draw"
+                >
+                  💥
+                </button>
+              </div>
+            </div>
+          <% end %>
           <%= if @draw_mode do %>
             <canvas
               id="presentation_canvas"
