@@ -6,6 +6,7 @@ defmodule Ezpresso.Presentations.Presentation do
   schema "presentations" do
     field :title, :string
     field :markdown_content, :string
+    field :image_urls, {:array, :string}
     belongs_to :user, User
 
     timestamps(type: :utc_datetime)
@@ -14,7 +15,7 @@ defmodule Ezpresso.Presentations.Presentation do
   @doc false
   def changeset(presentation, attrs) do
     presentation
-    |> cast(attrs, [:title, :markdown_content, :user_id])
-    |> validate_required([:title, :markdown_content, :user_id])
+    |> cast(attrs, [:title, :markdown_content, :user_id, :image_urls])
+    |> validate_required([:title, :markdown_content, :user_id, :image_urls])
   end
 end
