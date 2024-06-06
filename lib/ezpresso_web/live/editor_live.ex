@@ -16,7 +16,7 @@ defmodule EzpressoWeb.EditorLive do
   def render(assigns) do
     ~H"""
     <div class="w-full ">
-      <.form for={@form} class="flex flex-row" phx-submit="save-presentation">
+      <.form for={@form} class="flex flex-row" phx-change="validate" phx-submit="save-presentation">
         <div class="w-1/2 flex flex-col p-4">
           <div class="flex flex-row">
             <h2 class="text-xl mb-2">Markdown Editor</h2>
@@ -33,6 +33,7 @@ defmodule EzpressoWeb.EditorLive do
                 Present 🎬
               </span>
             </button>
+            <.button type="button" phx-click={show_modal("post-modal")}>Upload Picture</.button>
           </div>
           <div class="invisible h-0">
             <.input type="text" field={@form[:id]} label="ID" />
@@ -71,6 +72,10 @@ defmodule EzpressoWeb.EditorLive do
             <% end %>
           </div>
         </div>
+        <.modal id="post-modal">
+          <.live_file_input upload={@uploads.image} />
+          <.button type="submit" phx-disable-with="Saving...">Upload Image</.button>
+        </.modal>
       </.form>
     </div>
     """
@@ -108,13 +113,17 @@ defmodule EzpressoWeb.EditorLive do
           |> Presentation.changeset(%{})
           |> to_form(as: "presentation")
 
-        {:ok,
-         assign(
-           socket,
-           loading: false,
-           slides_html: MarkdownHelper.collect_slides(presentation.markdown_content),
-           form: to_form(res)
-         )}
+        # Should reformat all of the socket assigns to look like this.
+        socket =
+          socket
+          |> assign(
+            loading: false,
+            slides_html: MarkdownHelper.collect_slides(presentation.markdown_content),
+            form: to_form(res)
+          )
+          |> allow_upload(:image, accept: ~w(.png .jpg), max_entries: 1)
+
+        {:ok, socket}
     end
   end
 
@@ -133,7 +142,8 @@ defmodule EzpressoWeb.EditorLive do
          loading: false,
          slides_html: MarkdownHelper.collect_slides(tmp),
          form: to_form(form)
-       )}
+       )
+       |> allow_upload(:image, accept: ~w(.png .jpg), max_entries: 1)}
     else
       form =
         %Presentation{}
@@ -145,7 +155,8 @@ defmodule EzpressoWeb.EditorLive do
          loading: true,
          slides_html: MarkdownHelper.collect_slides(""),
          form: to_form(form)
-       )}
+       )
+       |> allow_upload(:image, accept: ~w(.png .jpg), max_entries: 1)}
     end
   end
 
@@ -176,7 +187,8 @@ defmodule EzpressoWeb.EditorLive do
   end
 
   @impl true
-  def handle_event("validate", %{"presentation" => _params}, socket) do
+  def handle_event("validate", _params, socket) do
+    # Need this for image upload
     {:noreply, socket}
   end
 
@@ -188,8 +200,16 @@ defmodule EzpressoWeb.EditorLive do
       ) do
     %{current_user: user} = socket.assigns
 
+    image_urls = consume_files(socket)
+    IO.puts("\n\n SOCKET CONSOOOM \n\n" <> inspect(image_urls) <> "\n\n\n\n")
+
+    # BIG TODO: Merge uploaded URLS so as to not overwrite them at every save
+    # and make it so that we can remove images in a controlled fashion.
+    # Too late and tired today though.
+
     params
     |> Map.put("user_id", user.id)
+    |> Map.put("image_urls", image_urls)
     |> Presentations.save()
     |> case do
       {:ok, presentation} ->
@@ -204,5 +224,19 @@ defmodule EzpressoWeb.EditorLive do
       {:error, _changeset} ->
         {:noreply, socket}
     end
+  end
+
+  defp consume_files(socket) do
+    upl_files =
+      consume_uploaded_entries(socket, :image, fn %{path: path}, _entry ->
+        dest =
+          Path.join(Application.app_dir(:ezpresso, "priv/static/uploads"), Path.basename(path))
+
+        File.cp!(path, dest)
+
+        {:postpone, ~p"/uploads/#{Path.basename(dest)}"}
+      end)
+
+    upl_files
   end
 end
