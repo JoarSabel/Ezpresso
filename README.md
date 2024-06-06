@@ -23,6 +23,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   - [x] Can load all of the users presentations to the page
     - [x] They lead to the editor when clicked
   - [ ] If not logged in...do something else? 
+  - [ ] Make it look gooder
 - [x] Make a presenter page, where you can present one slide at a time.
   - [x] Make homepage/landingpage
   - [x] Load a specific presentation onto new page
@@ -30,10 +31,13 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   - [x] Can cycle the slides with buttons and arrows.
   - [x] Can draw on the presentation.
   - [x] Hide bottom buttons when fullscreen
-    - [ ] Make some sort of sidebar in fullscreen mode to allow drawing etc
+    - [x] Make some sort of sidebar in fullscreen mode to allow drawing etc
   - [ ] Improve styling...
 - [ ] Editor
   - [ ] Add support for images
+    - [x] Can upload
+    - [x] Can render
+    - [ ] User friendly
 - [ ] Do some sort of audio to text conversion for when you want to practice speaking.
   - [ ] deps <> Bumblebee
   - [ ] Some way to deal with audio (Membrane?)
