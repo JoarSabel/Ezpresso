@@ -31,26 +31,22 @@ defmodule EzpressoWeb.HomeLive do
           <div>
             <h2 class="text-2xl mb-4">Your presentations</h2>
           </div>
-          <div class="flex flex-wrap">
-            <ul class="flex flex-wrap list-none">
-              <%= for presentation <- @presentations do %>
-                <a class="p-2 w-1/3 min-h-40" href={"/editor/" <> Integer.to_string(presentation.id) }>
-                  <li class="flex flex-col min-h-60 bg-white-800 border-2 border-black rounded transition-all hover:shadow-2xl hover:-translate-y-1 hover:-translate-x-1 duration-300">
-                    <div class="w-full min-h-full">
-                      <div class="min-h-36 bg-green-200">
-                        <article class="ml-1 prose prose-sm prose-a:text-blue-600 descendant:dark:text-white">
-                          <%= raw(hd(MarkdownHelper.collect_slides(presentation.markdown_content))) %>
-                        </article>
-                      </div>
-                      <div>
-                        <%= presentation.title %>
-                      </div>
-                    </div>
-                  </li>
-                </a>
-              <% end %>
-            </ul>
-          </div>
+          <ul class="grid grid-cols-3 gap-4 list-none">
+            <%= for presentation <- @presentations do %>
+              <a class="min-h-40" href={"/editor/" <> Integer.to_string(presentation.id) }>
+                <li class="flex flex-col min-h-60 bg-white-800 border-2 border-black rounded transition-all hover:shadow-2xl hover:-translate-y-1 hover:-translate-x-1 duration-300">
+                  <div class="border-b-2 border-black bg-green-200/20 min-h-40 max-h-40 overflow-hidden">
+                    <article class="ml-2 prose prose-sm prose-a:text-blue-600 descendant:dark:text-white">
+                      <%= raw(hd(MarkdownHelper.collect_slides(presentation.markdown_content))) %>
+                    </article>
+                  </div>
+                  <div class="inline content-center align-middle text-center max-h-20 min-h-20">
+                    <%= presentation.title %>
+                  </div>
+                </li>
+              </a>
+            <% end %>
+          </ul>
         </div>
       <% end %>
     </div>
