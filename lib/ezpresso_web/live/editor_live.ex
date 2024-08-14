@@ -17,6 +17,15 @@ defmodule EzpressoWeb.EditorLive do
     ~H"""
     <div class="w-full ">
       <.form for={@form} class="flex flex-row" phx-change="validate" phx-submit="save-presentation">
+        <div class="absolute left-8 max-w-32">
+          <h2 class="text-xl">Image urls</h2>
+          <%= for file <- @files do %>
+            <div class="mb-4">
+              <%= file %>
+            </div>
+            <hr />
+          <% end %>
+        </div>
         <div class="w-1/2 flex flex-col p-4">
           <div class="flex flex-row">
             <h2 class="text-xl mb-2">Markdown Editor</h2>
@@ -105,7 +114,8 @@ defmodule EzpressoWeb.EditorLive do
            socket,
            loading: false,
            slides_html: MarkdownHelper.collect_slides(""),
-           form: to_form(form)
+           form: to_form(form),
+           files: available_files()
          )}
 
       # else (basically if we find something)
@@ -121,7 +131,8 @@ defmodule EzpressoWeb.EditorLive do
           |> assign(
             loading: false,
             slides_html: MarkdownHelper.collect_slides(presentation.markdown_content),
-            form: to_form(res)
+            form: to_form(res),
+            files: available_files()
           )
           |> allow_upload(:image, accept: ~w(.png .jpg), max_entries: 1)
 
@@ -240,5 +251,14 @@ defmodule EzpressoWeb.EditorLive do
       end)
 
     upl_files
+  end
+
+  defp available_files() do
+    uploads = Application.app_dir(:ezpresso, "priv/static/uploads/")
+
+    case File.ls(uploads) do
+      {:ok, files} -> Enum.map(files, fn iter -> "/uploads/" <> iter end)
+      {:error, _reason} -> [~c"SHITE"]
+    end
   end
 end
