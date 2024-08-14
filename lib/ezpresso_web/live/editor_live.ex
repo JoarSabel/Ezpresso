@@ -33,7 +33,9 @@ defmodule EzpressoWeb.EditorLive do
                 Present 🎬
               </span>
             </button>
-            <.button type="button" phx-click={show_modal("post-modal")}>Upload Picture</.button>
+            <.button class="ml-2" type="button" phx-click={show_modal("post-modal")}>
+              Upload Picture
+            </.button>
           </div>
           <div class="invisible h-0">
             <.input type="text" field={@form[:id]} label="ID" />
