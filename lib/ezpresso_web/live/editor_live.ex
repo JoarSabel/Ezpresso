@@ -154,7 +154,8 @@ defmodule EzpressoWeb.EditorLive do
        assign(socket,
          loading: false,
          slides_html: MarkdownHelper.collect_slides(tmp),
-         form: to_form(form)
+         form: to_form(form),
+         files: available_files()
        )
        |> allow_upload(:image, accept: ~w(.png .jpg), max_entries: 1)}
     else
@@ -167,7 +168,8 @@ defmodule EzpressoWeb.EditorLive do
        assign(socket,
          loading: true,
          slides_html: MarkdownHelper.collect_slides(""),
-         form: to_form(form)
+         form: to_form(form),
+         files: available_files()
        )
        |> allow_upload(:image, accept: ~w(.png .jpg), max_entries: 1)}
     end
@@ -258,7 +260,7 @@ defmodule EzpressoWeb.EditorLive do
 
     case File.ls(uploads) do
       {:ok, files} -> Enum.map(files, fn iter -> "/uploads/" <> iter end)
-      {:error, _reason} -> [~c"SHITE"]
+      {:error, _reason} -> []
     end
   end
 end
