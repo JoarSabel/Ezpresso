@@ -53,12 +53,16 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 The home page, as seen here will feature all the users presentations,
 with a preview of the first slide.
 
+(just dont add an image to the first slide yet)
+
 ![Editor, in development...](./priv/static/images/editorDemo.png)
 The editor page, will be where the presentations can be made.
 
 ![Presenter View, in development...](./priv/static/images/presenterDemo.png)
 The presenter page, is the page where we show off all the cool
 markdown that we wrote [|:^)
+
+And draw on them.
 
 ## Learn more
 
