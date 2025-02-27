@@ -34,14 +34,14 @@ defmodule EzpressoWeb.HomeLive do
           <ul class="grid grid-cols-3 gap-4 list-none">
             <%= for presentation <- @presentations do %>
               <a class="min-h-40" href={"/editor/" <> Integer.to_string(presentation.id) }>
-                <li class="flex flex-col min-h-60 bg-white-800 border-2 border-black rounded transition-all hover:shadow-2xl hover:-translate-y-1 hover:-translate-x-1 duration-300">
+                <li class="flex flex-col min-h-60 bg-white-800 border border-black rounded transition-all hover:shadow-2xl hover:-translate-y-1 hover:-translate-x-1 duration-300">
                   <div class="border-b-2 border-black bg-green-200/20 min-h-40 max-h-40 overflow-hidden">
-                    <article class="ml-2 prose prose-sm prose-a:text-blue-600 descendant:dark:text-white">
+                    <article class="transform scale-[70%] ml-2 prose prose-sm prose-a:text-blue-600 descendant:dark:text-white">
                       <%= raw(hd(MarkdownHelper.collect_slides(presentation.markdown_content))) %>
                     </article>
                   </div>
-                  <div class="inline content-center align-middle text-center max-h-20 min-h-20">
-                    <%= presentation.title %>
+                  <div class="font-bold text-xl inline content-center align-middle text-center max-h-20 min-h-20">
+                    <h2><%= presentation.title %></h2>
                   </div>
                 </li>
               </a>
@@ -57,7 +57,7 @@ defmodule EzpressoWeb.HomeLive do
   def mount(_params, _session, socket) do
     %{current_user: user} = socket.assigns
     presentations = Presentations.all_by_user(user)
-    IO.puts("\n\n\n" <> inspect(presentations) <> "\n\n\n")
+    # IO.puts("\n\n\n" <> inspect(presentations) <> "\n\n\n")
     {:ok, assign(socket, :presentations, presentations)}
   end
 end
